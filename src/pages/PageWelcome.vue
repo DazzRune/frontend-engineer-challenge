@@ -5,7 +5,7 @@
 		</template>
 
 		<template #default>
-			{{ MESSAGE_PER_PAGE[PAGES.welcomeback] }}
+			{{ MESSAGE_PER_PAGE[PAGES.welcome] }}
 		</template>
 
 		<template #actions>

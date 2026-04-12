@@ -24,7 +24,7 @@ export function useServerValidation(state: MaybeRefOrGetter<TSchema>, page: Mayb
 		return execute()
 	}
 
-	const { data, error, execute, canAbort, abort } = useFetch(url,
+	const { data, error, execute, isFetching, canAbort, abort } = useFetch(url,
 		// { credentials: 'include' }, // для поддержки разных доменов (в т.ч. порты localhost сервера и клиента обычно разные)
 		{
 			immediate: false,
@@ -100,5 +100,6 @@ export function useServerValidation(state: MaybeRefOrGetter<TSchema>, page: Mayb
 		validationMessage,
 		sensitiveMessage,
 		send,
+		isFetching,
 	}
 }

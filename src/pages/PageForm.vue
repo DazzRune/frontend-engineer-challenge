@@ -9,6 +9,7 @@
 			<BaseForm
 				v-model="state"
 				:message="browserMessage"
+				:is-loading="isFetching"
 				@submit="onSubmit"
 			/>
 
@@ -42,7 +43,7 @@
 
 		<template #footer>
 			<p v-if="page === PAGES.login">
-				<span>Еще не зарегестрированы?</span>
+				<span>Еще не зарегистрированы?</span>
 				<router-link
 					:to="{ name: PAGES.register }"
 					class="link-inline"
@@ -84,7 +85,7 @@ const state = ref(setState(Object.keys(schema.value.entries) as keyof TSchema))
 
 // валидация на стороне пользователя успешна? да - делаем запрос и ждем результат серверной валидации
 const { message: browserValidationMessage, execute: onBrowserValidation } = useBrowserValidation(state, schema)
-const { validationMessage: serverValidationMessage, sensitiveMessage: serverSensitiveMessage, send: onServerValidation } = useServerValidation(state, page)
+const { validationMessage: serverValidationMessage, sensitiveMessage: serverSensitiveMessage, send: onServerValidation, isFetching } = useServerValidation(state, page)
 
 // по приоритету обработки на клиенте
 const browserMessage = computed(() => {

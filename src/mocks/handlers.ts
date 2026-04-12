@@ -4,9 +4,12 @@ import { useLocalStorage } from '@vueuse/core'
 import { http, HttpResponse, delay } from 'msw'
 import * as v from "valibot"
 
-const ATTEMPTS_LIMIT = 100 // todo - вернуть 3
+const ATTEMPTS_LIMIT = 100
 
-let currentRequestId: string | null = null // клиентская защита от множественных запросов
+let loginRequestId: string | null = null // клиентская защита от множественных запросов
+let registerRequestId: string | null = null // клиентская защита от множественных запросов
+let resetRequestId: string | null = null // клиентская защита от множественных запросов
+let confirmRequestId: string | null = null // клиентская защита от множественных запросов
 let attempts: number = 0 // серверная защита от множественных запросов
 let resetToken: string | null = null // реализован через переменную, а не через заголовок 'Set-Cookie' из-за невозможности его затем вычистить из MSW, чтобы например проверить сценарий отсутствия токена при создании пароля
 
@@ -53,7 +56,7 @@ export const handlers = [
 	http.post(`${URL_BASE}${PAGES.login}`, async (info) => {
 		// подписываемся на отмену текущего запроса, если уже пришел новый
 		const requestId = crypto.randomUUID()
-		currentRequestId = requestId
+		loginRequestId = requestId
 
 		// Имитируем задержку сети
 		// await delay(2000)
@@ -76,7 +79,7 @@ export const handlers = [
 		}
 
 		// если пришёл новый запрос — этот уже устарел
-		if (currentRequestId !== requestId) {
+		if (loginRequestId !== requestId) {
 			return RESPONSE_PER_ERROR_CODE[STATUS.CLIENT_CLOSED]?.()
 		}
 
@@ -129,7 +132,7 @@ export const handlers = [
 	// REGISTER
 	http.post(`${URL_BASE}${PAGES.register}`, async (info) => {
 		const requestId = crypto.randomUUID()
-		currentRequestId = requestId
+		registerRequestId = requestId
 
 		// await delay(1000)
 		const body = await info.request.json() as TSchemaLogin // заголовки
@@ -149,7 +152,7 @@ export const handlers = [
 			return RESPONSE_PER_ERROR_CODE[STATUS.SERVICE_UNAVAILABLE]?.()
 		}
 
-		if (currentRequestId !== requestId) {
+		if (registerRequestId !== requestId) {
 			return RESPONSE_PER_ERROR_CODE[STATUS.CLIENT_CLOSED]?.()
 		}
 
@@ -202,7 +205,7 @@ export const handlers = [
 	// RESET (/request-reset-password)
 	http.post(`${URL_BASE}${PAGES.reset}`, async (info) => {
 		const requestId = crypto.randomUUID()
-		currentRequestId = requestId
+		resetRequestId = requestId
 
 		// await delay(1000)
 		const body = await info.request.json() as TSchemaReset // заголовки
@@ -222,7 +225,7 @@ export const handlers = [
 			return RESPONSE_PER_ERROR_CODE[STATUS.INTERNAL_SERVER_ERROR]?.()
 		}
 
-		if (currentRequestId !== requestId) {
+		if (resetRequestId !== requestId) {
 			return RESPONSE_PER_ERROR_CODE[STATUS.CLIENT_CLOSED]?.()
 		}
 
@@ -262,7 +265,7 @@ export const handlers = [
 	// CONFIRM (/reset-password)
 	http.post(`${URL_BASE}${PAGES.confirm}`, async (info) => {
 		const requestId = crypto.randomUUID()
-		currentRequestId = requestId
+		confirmRequestId = requestId
 
 		// await delay(1000)
 		const body = await info.request.json() as TSchemaConfirm & { token: string } // заголовки
@@ -279,7 +282,7 @@ export const handlers = [
 			return RESPONSE_PER_ERROR_CODE[STATUS.INTERNAL_SERVER_ERROR]?.()
 		}
 
-		if (currentRequestId !== requestId) {
+		if (confirmRequestId !== requestId) {
 			return RESPONSE_PER_ERROR_CODE[STATUS.CLIENT_CLOSED]?.()
 		}
 
@@ -291,7 +294,7 @@ export const handlers = [
 
 		// 400 STATUS.BAD_REQUEST - несоответствующий формат тела (для простого теста достаточно просто ввести в поле паролей 'invalidargument')
 		// !cookies.reset_token
-		if (!resetToken || !v.safeParse(schemaConfirm.entries.password, body.password).success || body.password === 'invalidargument') {
+		if (!v.safeParse(schemaConfirm.entries.password, body.password).success || body.password === 'invalidargument') {
 			return RESPONSE_PER_ERROR_CODE[STATUS.BAD_REQUEST]?.()
 		}
 

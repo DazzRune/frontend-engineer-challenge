@@ -23,8 +23,9 @@
 
 		<button
 			type="submit"
-			class="btn"
+			class="btn disabled:brightness-50 disabled:cursor-not-allowed!"
 			:class="[page === PAGES.login || page === PAGES.register ? 'btn-accent' : 'btn-accent-lighter']"
+			:disabled="isLoading"
 		>
 			{{ ACTION_PER_PAGE[page]?.title }}
 		</button>
@@ -56,8 +57,9 @@ const state = defineModel<TSchema>({
 
 const fieldNames = computed(() => Object.keys(state.value ?? {}) as (keyof TSchema)[])
 
-const { message = null } = defineProps<{
+const { message = null, isLoading = false } = defineProps<{
 	message?: Record<keyof TSchema, string> | null
+	isLoading: boolean
 }>()
 
 const route = useRoute()
