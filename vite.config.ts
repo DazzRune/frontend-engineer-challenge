@@ -9,7 +9,7 @@ import tailwindcss from '@tailwindcss/vite'
 
 // https://vite.dev/config/
 export default defineConfig({
-	base: `/api/v1/auth/`,
+	base: process.env.VITE_BASE_URL ?? '/',
 	plugins: [
 		vue(),
 		// vueDevTools(),
