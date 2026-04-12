@@ -7,8 +7,8 @@ export function useServerValidation(state: MaybeRefOrGetter<TSchema>, page: Mayb
 	// const url = computed(() => `${URL_BASE}${_page.value}`)
 	// const url = computed(() => `${URL_ORIGIN}${_page.value}`)
 	const url = computed(() => import.meta.env.DEV || import.meta.env.VITE_MOCK_API === 'true'
-	? `${URL_BASE}${_page.value}`
-	: `${URL_ORIGIN}${_page.value}`)
+		? `${URL_BASE}${_page.value}`
+		: `${URL_ORIGIN}${_page.value}`)
 
 	const validationMessage = ref<Record<keyof TSchema, string> | null>(null) // размещается под полями формы
 	const sensitiveMessage = ref<string | null | undefined>(null) // размещается под кнопкой отправки формы
@@ -24,7 +24,7 @@ export function useServerValidation(state: MaybeRefOrGetter<TSchema>, page: Mayb
 		return execute()
 	}
 
-	const { data, error, execute, canAbort, abort } = useFetch(url,
+	const { data, error, execute, isFetching, canAbort, abort } = useFetch(url,
 		// { credentials: 'include' }, // для поддержки разных доменов (в т.ч. порты localhost сервера и клиента обычно разные)
 		{
 			immediate: false,
@@ -100,5 +100,6 @@ export function useServerValidation(state: MaybeRefOrGetter<TSchema>, page: Mayb
 		validationMessage,
 		sensitiveMessage,
 		send,
+		isFetching,
 	}
 }
