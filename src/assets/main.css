@@ -1,0 +1,127 @@
+@import 'tailwindcss';
+
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/src/assets/fonts/Inter-Regular.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url('/src/assets/fonts/Inter-Medium.ttf') format('truetype');
+}
+
+:root {
+  --pallete-white: 255, 255, 255;
+  --pallete-black: 31, 31, 39;
+  --pallete-gray: 129, 134, 154;
+  --pallete-gray-lighter: 192, 194, 203;
+  --pallete-red: 210, 57, 57;
+  --pallete-blue: 49, 160, 240;
+  --weight-medium: 500;
+
+  font-family: 'Inter', 'sans-serif';
+}
+
+@theme {
+  --color-primary: rgb(var(--pallete-black));
+  --color-primary-inverse: rgb(var(--pallete-white));
+  --color-secondary: rgb(
+    var(--pallete-gray)
+  ); /* label, пояснения под заголовками, footer */
+  --color-tertiary: rgb(var(--pallete-gray-lighter)); /* соглашение, icon eye */
+  --color-passive: rgb(var(--pallete-black), 0.08); /* input border default, */
+  --color-accent: rgb(var(--pallete-blue)); /* button default, input border filled */
+  --color-accent-lighter: rgb(var(--pallete-blue), 0.1); /* button secondary */
+  --color-unaccent: rgb(var(--pallete-blue), 0); /* button transparent */
+  --color-invalid: rgb(var(--pallete-red)); /* input border invalid */
+
+  --text-size-title: 32px;
+  --text-size-title-md: 26px;
+  --text-size-primary: 15px;
+  --text-size-secondary: 14px; /* уточняющий content text под заголовками */
+  --text-size-tertiary: 12px;
+
+  --leading-title: 1.2;
+  --leading-primary: 1.6;
+  --leading-secondary: 1.6;
+  --leading-tertiary: 1;
+}
+
+/* общие или переиспользуемые стили */
+
+body {
+  color: var(--color-primary);
+  /* background-color: rgb(102, 102, 194); */
+}
+
+h1 {
+  font-size: var(--text-size-title);
+  line-height: var(--leading-title);
+  font-weight: var(--weight-medium);
+
+  @media (max-width: 1440px) {
+    font-size: var(--text-size-title-md);
+  }
+}
+
+input {
+  width: 100%;
+  background-color: rgb(var(--pallete-white));
+}
+
+:is(button, a):hover {
+  filter: brightness(0.85);
+  cursor: pointer;
+}
+
+.btn {
+  margin-top: 20px;
+  padding: 12px 16px;
+  display: inline-block;
+  width: 100%;
+  font-size: var(--text-size-secondary);
+  font-weight: var(--weight-medium);
+  line-height: 1;
+  text-align: center;
+  border-radius: 8px;
+}
+
+.btn-accent {
+  color: var(--color-primary-inverse);
+  background-color: var(--color-accent);
+}
+.btn-accent-lighter {
+  color: var(--color-accent);
+  background-color: var(--color-accent-lighter);
+}
+.btn-unaccent {
+  color: var(--color-accent);
+  background-color: var(--color-unaccent);
+}
+
+.link-inline {
+  color: var(--color-accent);
+  background-color: var(--color-unaccent);
+}
+.link-underline {
+  text-decoration-line: underline;
+  text-underline-offset: 4px;
+}
+
+.details {
+  font-size: var(--text-size-secondary);
+  color: var(--color-secondary);
+  line-height: var(--leading-secondary);
+}
+.message {
+  margin-top: 6px;
+  height: var(--leading-tertiary);
+  font-size: var(--text-size-tertiary);
+  color: var(--color-invalid);
+  line-height: var(--leading-tertiary);
+}
