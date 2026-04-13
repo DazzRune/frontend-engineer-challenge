@@ -2,8 +2,8 @@
 
 Клиентская реализация сервиса авторизации и аутентификации для интеграции с [backend](https://github.com/azarenkov/engineer-challenge).
 
-Альтернативная реализация с полной эмуляцией backend с помощью
-[MSW.js](https://mswjs.io/), размещен на [Github Pages](https://dazzrune.github.io/frontend-engineer-challenge).
+Также есть альтернативная реализация с полной эмуляцией backend с помощью
+[MSW.js](https://mswjs.io/), размещена в ветке `msw` и задеплоена на [Github Pages](https://dazzrune.github.io/frontend-engineer-challenge).
 
 ## Как запустить проект на локальном сервере
 
