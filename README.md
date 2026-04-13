@@ -24,7 +24,7 @@
 
 В devtools можно отслеживать статус запросов, например, успешная авторизация:
 
-![Лог успешной авторизации](https://raw.githubusercontent.com/DazzRune/media-hosting/refs/heads/main/frontend-engineer-challenge_login_logs.jpg?token=GHSAT0AAAAAADVZP24GA3C3E4A623ETY4GM2O423OA)
+![Лог успешной авторизации](https://raw.githubusercontent.com/DazzRune/media-hosting/refs/heads/main/frontend-engineer-challenge_login_logs.jpg)
 
 | инструмент | версия | назначение | преимущества перед аналогами |
 |---|---|---|---|
